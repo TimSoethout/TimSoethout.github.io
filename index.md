@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Timmy Bankers blog
-tagline: Supporting tagline
+tagline: 
 published: true
 ---
 
