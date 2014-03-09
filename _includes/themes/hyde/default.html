@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
-  {% include themes/hyde/head.html %}
+  {% include {{ ASSET_PATH }}/head.html %}
 
-  <body>
+  <body class="theme-base-0d">
 
-    {% include themes/hyde/sidebar.html %}
+    {% include {{ ASSET_PATH }}/sidebar.html %}
 
     <div class="content container">
       {{ content }}
