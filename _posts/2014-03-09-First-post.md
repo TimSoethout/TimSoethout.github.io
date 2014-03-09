@@ -1,5 +1,8 @@
 ---
-published: true
+layout: post
+category : lessons
+tagline: "Trying out excerts"
+tags : [beginner, jekyll]
 ---
 
 {% include JB/setup %}
