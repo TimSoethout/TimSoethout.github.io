@@ -1,6 +1,6 @@
 ---
 layout: post
-category : lessons
+category : 
 tagline: "gh-pages"
 tags : [beginner, jekyll, blog, gh-pages]
 published : true
