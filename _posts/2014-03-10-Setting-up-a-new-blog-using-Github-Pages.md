@@ -16,7 +16,7 @@ It took a lot of time to correctly set up Wordpress having all the features I wo
 Unfortunately the blog died a cold dead a while ago. When setting up a new blog I wanted more or less the same functionality and was about to setup a new self-hosted Wordpress blog when I first looked into alternatives.
 
 My eye fell upon [GitHub pages](http://pages.github.com/), which is a **free** hosted service from GitHub on which you can serve simple static web pages. As long as your pages are thus statically created it is a great place to host them with good availability. Luckily they also provide a way to generate the pages using [Jekyll](http://jekyllrb.com/), which is a blog-aware static page generator. 
-The blog itself is just a GitHub repository and the blog posts are files written in markdown.
+The blog itself is just a GitHub repository and the blog posts are files written in [markdown](http://daringfireball.net/projects/markdown/).
 
 ## Getting started
 
