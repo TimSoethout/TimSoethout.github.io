@@ -44,5 +44,5 @@ Optionally you can also let your own domain refer to it very easily:
 ##Useful links
 
 More useful links are:
-- <pros.io>: A simple web interface that you can use to edit your markdown blog posts in the browser.
+- <http://prose.io/>: A simple web interface that you can use to edit your markdown blog posts in the browser.
 - themes: You can easily change the visual appearance of your blog by changing [themes](http://themes.jekyllbootstrap.com/).
