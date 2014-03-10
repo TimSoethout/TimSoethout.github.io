@@ -8,7 +8,7 @@ published : true
 
 {% include JB/setup %}
 
-## A New Blog
+## A new blog
 
 A long time ago I started out with a self-hosted Wordpress blog. It took some time to setup, but in the end I got it working on my server at home and was available together with some other sites through Apache.
 
@@ -37,6 +37,12 @@ Your new blog is up and running in about 10 minutes.
 
 Optionally you can also let your own domain refer to it very easily:
 
-- Add a file `CNAME` to the root of your repository with the exact url in the body of the file such as: `blog.timmybankers.nl`
+- Add a file `CNAME` to the root of your repository with the exact URL in the body of the file such as: `blog.timmybankers.nl`
 
-- Configure the DNS of your domain to let the same url point to _user_.github.io using as you might have guessed `CNAME`.
+- Configure the DNS of your domain to let the same URL point to _user_.github.io using as you might have guessed `CNAME`.
+
+##Useful links
+
+More useful links are:
+- <pros.io>: A simple web interface that you can use to edit your markdown blog posts in the browser.
+- themes: You can easily change the visual appearance of your blog by changing [themes](http://themes.jekyllbootstrap.com/).
