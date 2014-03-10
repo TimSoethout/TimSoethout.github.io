@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Timmy Bankers blog
+title: Blog
 tagline: 
 published: true
 ---
