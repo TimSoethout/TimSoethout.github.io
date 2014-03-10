@@ -25,12 +25,15 @@ The process to get it up and running was easy:
 - First create a repository on GitHub with you GitHub user: _user_.github.io (.com might also work).
 
 - Check out your Jeckyll template of choice (I chose [Jekyll Bootstrap](https://github.com/plusjade/jekyll-bootstrap/))
+
   `$ git clone https://github.com/plusjade/jekyll-bootstrap/`
 
 - Attach it to your newly created repo
+
   `$ git remote set-url origin git@github.com:user/user.github.io`
 
 - And push
+
   `$ git push`
 
 Your new blog is up and running in about 10 minutes.
