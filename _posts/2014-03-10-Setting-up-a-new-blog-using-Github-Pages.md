@@ -21,8 +21,8 @@ The process to get it up and running was easy:
 
 - First create a repository on GitHub with you GitHub user: <user>.github.io (.com might also work).
 
-- Check out your Jeckyll template of choice (I chose ...)
-  `$ git clone ...`
+- Check out your Jeckyll template of choice (I chose [Jeckyl Bootstrap| https://github.com/plusjade/jekyll-bootstrap/])
+  `$ git clone https://github.com/plusjade/jekyll-bootstrap/`
 
 - Attach it to your newly created repo
   `$ git remote set-url origin git@github.com:<user>/<user>.github.io`
