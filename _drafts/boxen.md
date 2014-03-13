@@ -31,6 +31,38 @@ script/boxen
 
 In `Puppetfile` you find the programs that are deployed by default using `github-<programname>`
 
+While bootstrapping boxen, it asks for your GitHub account name. The name you entered here is also used to identify you personal settings. You can create a puppet file `boxen/repo/modules/people/manifests/<GitHubUser>.pp` in which you can put specific items.
+
+```puppet
+class people::<GitHubUser> (
+  $my_username  = $::luser
+  $my_homedir   = "/Users/${my_username}"
+  $my_sourcedir = $::boxen_srcdir
+) {
+  # My dotfile repository
+  repository { "${my_sourcedir}/.dotfiles":
+    source => 'git@bitbucket.org:Tibod/.dotfiles.git', # My private repository with dotfiles
+  }
+
+  file { "${my_homedir}/.config/fish/":
+    ensure  => link,
+   # mode    => '0644',
+    target  => "${my_sourcedir}/.dotfiles/fish/",
+    require => Repository["${my_sourcedir}/.dotfiles"],
+  }
+}
+```
+
+This puppet scripts contains 3 importatnt element:
+#. The first part declares some variables that are available in the body of the scipt
+#. The `repository` makes sure that my dotfiles repository is checked out in `${my_sourcedir}/.dotfiles`, which in my case was `~/src/.dotfiles`.
+#. The `file` makes sure that a symlink is created from my fish configuration directory to my actual configuration in the checkout out repository.
+
+Now if I update my dotfiles in the repository and rerun boxen, they are automatically provisioned. In this case it is also possible to edit the files directly in the `~/src` directory, since they are symlinked there. For me this was a good opportunity to finally start collecting my settings in one place and use boxen to manage the symlinks to their correct locations.
+
+## Resources
+
+My [our-boxen repo](https://github.com/TimSoethout/our-boxen) for a complete setup. At the time of writing a few apps and a start with a dotfile repository.
 
 - why boxen
 - uses
