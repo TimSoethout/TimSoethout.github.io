@@ -29,9 +29,11 @@ cd /opt/boxen/repo
 script/boxen
 ```
 
+## Dotfiles
+
 In `Puppetfile` you find the programs that are deployed by default using `github-<programname>`
 
-While bootstrapping boxen, it asks for your GitHub account name. The name you entered here is also used to identify you personal settings. You can create a puppet file `boxen/repo/modules/people/manifests/<GitHubUser>.pp` in which you can put specific items.
+While bootstrapping Boxen, it asks for your GitHub account name. The name you entered here is also used to identify you personal settings. You can create a puppet file `boxen/repo/modules/people/manifests/<GitHubUser>.pp` in which you can put specific items.
 
 ```puppet
 class people::<GitHubUser> (
@@ -58,15 +60,40 @@ This puppet scripts contains 3 importatnt element:
 #. The `repository` makes sure that my dotfiles repository is checked out in `${my_sourcedir}/.dotfiles`, which in my case was `~/src/.dotfiles`.
 #. The `file` makes sure that a symlink is created from my fish configuration directory to my actual configuration in the checkout out repository.
 
-Now if I update my dotfiles in the repository and rerun boxen, they are automatically provisioned. In this case it is also possible to edit the files directly in the `~/src` directory, since they are symlinked there. For me this was a good opportunity to finally start collecting my settings in one place and use boxen to manage the symlinks to their correct locations.
+Now if I update my dotfiles in the repository and rerun Boxen, they are automatically provisioned. In this case it is also possible to edit the files directly in the `~/src` directory, since they are symlinked there. For me this was a good opportunity to finally start collecting my settings in one place and use Boxen to manage the symlinks to their correct locations.
+
+The dotfiles repository and the symlinking of it are a quick win for Boxen.
+
+## Running boxen
+
+To actually let boxen provision, we can run:
+
+`/opt/boxen/repo/scripts/boxen` 
+
+You can also pass the optional argument `--no-fde` to disable full disk encryption which is enabled by default.
+Boxen also installs its own Homebrew in `/opt/boxen/homebrew`. You can remove your old Homebrew installation as found in the [Homebrew FAQ](https://github.com/Homebrew/homebrew/wiki/FAQ).
+
+To improve performance Boxen slips in precompiled binaries from S3 storage for Homebrew. 
+For older machines like for example a Macbook Air 2010 with a Core 2 Duo processor this leads to issues. The following change for your `manifest/site.pp` will make sure all Homebrew packages are built from source.
+```puppet
+Package {
+  provider => homebrew,
+  require  => Class['homebrew'],
++ install_options => ['--build-from-source'],
+}
+```
+See [this issue](https://github.com/boxen/puppet-homebrew/issues/18#issuecomment-28467087) for more details.
+Additionally I had to clear my /opt/boxen/homebrew Cellar directory to make sure no old unusable binaries were left.
+
+## Applications
+
+Boxen also provisions applications. There are a couple of approaches here:
+- Boxen
+- brew cask
 
 ## Resources
 
 My [our-boxen repo](https://github.com/TimSoethout/our-boxen) for a complete setup. At the time of writing a few apps and a start with a dotfile repository.
 
-- why boxen
-- uses
-- quick wins:
-  - dotfiles
-  - symlinks
-  - 
+
+- environment is fish

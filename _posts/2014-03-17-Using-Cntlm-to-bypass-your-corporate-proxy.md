@@ -6,7 +6,7 @@ tags: [proxy, cntlm, ntlm, corporate, bash, debian]
 ---
 {% include JB/setup %}
 
-[Cntlm](http://cntlm.sourceforge.net/) can be used as a forwarding proxy for an enterprise NTLM proxy on your development machine. This way programs not supporting NTLM can use cntlm to access the outside world. Another use is to remove the need to supply username and password in your bash scripts, since only the NTLM-token is stored in your Cntlm config.
+[Cntlm](http://cntlm.sourceforge.net/) can be used as a forwarding proxy for an enterprise NTLM proxy on your development machine. This way programs not supporting NTLM can use cntlm to access the outside world. Another use is the removal of the need to supply your proxy credentials in your bash scripts, since only the NTLM-token is stored in your Cntlm config.
 
 Each user using this can use his own configuration file (with hashed credentials) and a custom port or use the default `/etc/cntlm.conf` for the startup daemon.
 
@@ -46,6 +46,9 @@ NoProxy         localhost, 127.0.0.*, *.local
 # Choose your custom port here
 Listen          3128
 ```
+
+There is not need to put your password in the config file, since you can generate an authentication token using: `/usr/sbin/cntlm -v -c cntlm.conf -M "http://www.google.com"`.
+The `-M` flag generates this for you and then you can copy the resulting Auth and PassNTLMv2 into your config. You do need to have already set the parent proxy.
 
 When you want the proxy to run use: `/usr/sbin/cntlm -v -c cntlm.conf` or when using the startup daemon active your settings with `sudo serice cntlm restart`.
 
