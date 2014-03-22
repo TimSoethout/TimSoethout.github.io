@@ -3,6 +3,7 @@ layout: post
 category: 
 tagline: 
 tags: [osx, wifi, channel 12, channel 13]
+title: Wifi channels and OSX
 ---
 {% include JB/setup %}
 
