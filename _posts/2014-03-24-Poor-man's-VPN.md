@@ -7,17 +7,17 @@ title: Poor man's VPN
 ---
 {% include JB/setup %}
 
-Some time ago I was wondering about security on open WiFi networks. These network provide no security on the transfer layer and everyone who wants can sniff your traffic that goes freely over the air. If you're browsing over HTTPS it is at least not possible to read the content of the requests, but the target domains can still be read.
+Some time ago I was wondering about security on open WiFi networks. These networks provide no security on the transport layer and everyone who wants can sniff your traffic can do that freely over the air. Fire up Wireshark of your on a public hotspot and you can see for yourself. Something like [HTTPS Anywhere](https://www.eff.org/https-everywhere) can make it a little bit safer, but even if you're browsing over HTTPS it is not possible to read the content of the requests, but the target domains can still be read. Also not every site is available over HTTPS.
 
-A VPN is a way to route all your traffic to the VPN site. There are of course all kinds of expensive tools for this. But another way to just use plain old SSH-tunnelling.
+A VPN is a way to route all your traffic to the VPN site, such that nobody can sniff your data. There are of course all kinds of expensive tools for this. But another way is to just use plain old SSH-tunnelling.
 
-A tool called [Sshuttle](https://github.com/apenwarr/sshuttle) uses this to forward all your traffic in a transparent way to any machine on which you have SSH access.
+A tool called [Sshuttle](https://github.com/apenwarr/sshuttle) uses this technique to forward all your traffic in a transparent way to any machine on which you have SSH access. It only required local root privileges, but not necessarily on the "VPN server".
 
-Install Sshuttle with `brew install sshuttle` and you can connect your vpn with `sshuttle --dns --daemon --pidfile=/tmp/sshuttle.pid --remote=remote.ssh.machine 0/0`.
+You can install Sshuttle with `brew install sshuttle` and you can connect your vpn with `sshuttle --dns --pidfile=/tmp/sshuttle.pid --remote=remote.ssh.machine 0/0`. For extra safety also the DNS server on the other side is used.
 
-This can for example connect you to a machine you have at home, or at your office. Effectively all your traffic is encrypted via the SSH connection before it leaves your computer and send onto the internet by the VPN machine, meaning no sniffer on the open WiFi can see what you're sending over the air.
+This can for example connect you to a machine you have at home, or at your office. Effectively all your traffic is encrypted via the SSH connection before it leaves your computer and only send onto the internet by the VPN machine, meaning no sniffer on the open WiFi can see what you're sending over the air. Only packets to the VPN domain are available.
 
-One drawback of this approach is of course the speed loss by depending on multiple connections. Sshuttle does a neat job preventing tcp-over-tcp.
+One drawback of this approach is of course some speed loss by depending on multiple connections. Sshuttle does a neat job preventing tcp-over-tcp.
 
 ## AWS
 If you don't have an SSH server available, you can also use a [free instance of Amazon AWS](https://aws.amazon.com/free/). The only downside is the required credit card. I registered and had a simple free Linux instance running in minutes. 
