@@ -6,7 +6,6 @@ tags: [scala, scalatest, testing, scalacheck, unittest, programming]
 title: ScalaCheck in ScalaTest
 ---
 {% include JB/setup %}
-{% include mathjs %}
 
 Today I held a presentation at the Scala Community at my employer about ScalaCheck. 
 ScalaCheck is a property based testing tool, which allows you to specify properties using predicates such as: $\forall s :: s.reverse.reverse \eq s$, which denotes that for all Strings `s` when you reverse `s` twice it should equal the original `s`.
