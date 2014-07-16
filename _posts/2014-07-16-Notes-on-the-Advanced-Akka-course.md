@@ -1,8 +1,4 @@
 ---
-published: true
----
-
----
 layout: post
 title: "Notes on the Advanced Akka course"
 date: 2014-07-15 12:00
@@ -13,6 +9,7 @@ tags:
   - Akka
   - Programming
 ---
+
 The Advanced Akka course is provided by Typesafe and is aimed at teaching advanced usages of Akka. The course covers the basics of Akka, Remoting, Clustering, Routers, CRDTs, Cluster Sharding and Akka Persistance. The following post starts with a general introduction to Akka and presents the takeaways from the course as we experienced them.
 
 ## A general overview of Akka
