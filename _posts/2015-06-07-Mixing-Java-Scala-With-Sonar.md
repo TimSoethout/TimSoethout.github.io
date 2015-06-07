@@ -62,30 +62,30 @@ I release the plugin with the MVP on maven central, which was a nice experience 
 The source can be found [here](https://github.com/TimSoethout/transform-xml-maven-plugin) and it can be include in your project like this:
 
 ```xml
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>nl.timmybankers.maven</groupId>
-                <artifactId>transform-xml-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                    </execution>
-                </executions>
-                <goals>
-                    <goal>transform-xml</goal>
-                </goals>
-                <configuration>
-                    <inputXmlPath>${project.build.directory}/site/cobertura/coverage.xml</inputXmlPath>
-                    <outputXmlPath>${sonar.build.directory}/${sonar.cobertura.reportPath}</outputXmlPath>
-                    <xpath>//class[contains(@filename,'.scala')]</xpath>
-                    <action>DELETE</action>
-                    <skipOnFileErrors>true</skipOnFileErrors>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>nl.timmybankers.maven</groupId>
+            <artifactId>transform-xml-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+                <execution>
+                    <phase>prepare-package</phase>
+                </execution>
+            </executions>
+            <goals>
+                <goal>transform-xml</goal>
+            </goals>
+            <configuration>
+                <inputXmlPath>${project.build.directory}/site/cobertura/coverage.xml</inputXmlPath>
+                <outputXmlPath>${sonar.build.directory}/${sonar.cobertura.reportPath}</outputXmlPath>
+                <xpath>//class[contains(@filename,'.scala')]</xpath>
+                <action>DELETE</action>
+                <skipOnFileErrors>true</skipOnFileErrors>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
 ```
 
 For now it only support the `DELETE` action for the usecase as described above.
@@ -93,22 +93,22 @@ Now I can run my build including publish to Sonar using this one liner:
 `mvn clean cobertura:cobertura scoverage:report prepare-package sonar:sonar`
 Make sure that `cobertura.report.format` is set to `xml` which will result in the coverage information being available in `target/site/cobertura/coverage.xml`.
 
-My sonar settings:
+My sonar properties in maven:
 
 ```xml
-       <sonar-maven-plugin.version>2.6</sonar-maven-plugin.version>
-       <sonar.jdbc.driver>org.postgresql.Driver</sonar.jdbc.driver>
-       <sonar.jdbc.url>jdbc:...</sonar.jdbc.url>
-       <sonar.host.url>http://...:9000/</sonar.host.url>
-       <sonar.core.codeCoveragePlugin>scoverage</sonar.core.codeCoveragePlugin>
-       <sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
-       <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
-       <sonar.scoverage.reportPath>target/scoverage.xml</sonar.scoverage.reportPath>
-       <sonar.cobertura.reportPath>target/cobertura-without-scala.xml</sonar.cobertura.reportPath>
-       <sonar.scala.cobertura.reportPath>/target/nonexisting.xml</sonar.scala.cobertura.reportPath>
-       <sonar.sources>src</sonar.sources>
-       <sonar.exclusions>src/test/**</sonar.exclusions>
-       <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+<sonar-maven-plugin.version>2.6</sonar-maven-plugin.version>
+<sonar.jdbc.driver>org.postgresql.Driver</sonar.jdbc.driver>
+<sonar.jdbc.url>jdbc:...</sonar.jdbc.url>
+<sonar.host.url>http://...:9000/</sonar.host.url>
+<sonar.core.codeCoveragePlugin>scoverage</sonar.core.codeCoveragePlugin>
+<sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
+<sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+<sonar.scoverage.reportPath>target/scoverage.xml</sonar.scoverage.reportPath>
+<sonar.cobertura.reportPath>target/cobertura-without-scala.xml</sonar.cobertura.reportPath>
+<sonar.scala.cobertura.reportPath>/target/nonexisting.xml</sonar.scala.cobertura.reportPath>
+<sonar.sources>src</sonar.sources>
+<sonar.exclusions>src/test/**</sonar.exclusions>
+<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
 ```
 
 Conclusion
