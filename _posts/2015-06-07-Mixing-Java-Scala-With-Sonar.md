@@ -7,8 +7,7 @@ title: Mixing Java & Scala with Sonar with correct code coverage.
 ---
 {% include JB/setup %}
 
-Mixing Scala and Java in a single Maven project
------------------------------------------------
+# Mixing Scala and Java in a single Maven projec
 
 Recently we added Scala to a Java Maven project. This works perfectly fine, until we looked at the Sonar report. It turns out that having nice automated code checks for a combined Java/Scala project is quite hard.
 Last week it was solved. This post is to write down the lessons learned, for it might help others.
@@ -30,23 +29,22 @@ Jacoco turned out not to be an option for us because it interprets the bytecode 
 
 For us this was not acceptable since we want to automatically check the coverage levels, and if the level is tens of percentages lower depending on which kind of statements we use, it would not help us very much.
 
-The Solution
-------------
+# The Solution
+
 
 The approach became: Cobertura for Java source files, Scoverage for Scala source files.
 Also we needed Sonar version of 4.5 or higher (we picked 5.1), because it allowed projects with multiple languages.
 This led us to two problem:
+
 1. Both the Java CoberturaSensor and Scala CoberturaSensor kicked in when `mvn sonar:sonar` was run, which resulted in duplicate coverage information for the same file, crashing the Sonar run.
 2. Both Cobertura's coverage file and the Scoverage coverage file contain coverage information for the Scala source files
 
-1. Multiple CoberturaSensor's
-`````````````````````````````
+## 1. Multiple CoberturaSensor's
 
 After lots of debugging I found that it was not possible to fix this. Both CoberturaSensors use the same `reportPath` property to find the coverage file. I wanted to disable the Scala scanner, and in the end I had to change the Scoverage Sonar plugin code to make this happen by introducing a different property `sonar.scala.cobertura.reportPath` which is used if specified. I did this to point this to a non-existing file so it was skipped.
 See my (fork)[https://github.com/TimSoethout/sonar-scala] and the (pull request)[https://github.com/1and1/sonar-scala/pull/1] for the change.
 
-2. Duplicate coverage for Scala source files
-````````````````````````````````````````````
+## 2. Duplicate coverage for Scala source files
 
 Now the problem became coverage information being inserted twice by the now only (Java) Cobertura run, which still contained the Scala source coverage information and also by the Scoverage report.
 
@@ -60,6 +58,7 @@ I decided to create a maven plugin which could do this for me. This way I know f
 
 I release the plugin with the MVP on maven central, which was a nice experience in itself.
 The source can be found (here)[https://github.com/TimSoethout/transform-xml-maven-plugin] and it can be include in your project like this:
+
 ```
     <build>
         <plugins>
@@ -93,6 +92,7 @@ Now I can run my build including publish to Sonar using this one liner:
 Make sure that `cobertura.report.format` is set to `xml` which will result in the coverage information being available in `target/site/cobertura/coverage.xml`.
 
 My sonar settings:
+
 ```
        <sonar-maven-plugin.version>2.6</sonar-maven-plugin.version>
        <sonar.jdbc.driver>org.postgresql.Driver</sonar.jdbc.driver>
