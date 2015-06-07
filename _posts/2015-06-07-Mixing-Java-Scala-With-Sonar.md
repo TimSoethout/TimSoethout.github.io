@@ -61,7 +61,7 @@ I decided to create a maven plugin which could do this for me. This way I know f
 I release the plugin with the MVP on maven central, which was a nice experience in itself.
 The source can be found [here](https://github.com/TimSoethout/transform-xml-maven-plugin) and it can be include in your project like this:
 
-```xml
+{% highlight xml %}
 <build>
     <plugins>
         <plugin>
@@ -86,7 +86,7 @@ The source can be found [here](https://github.com/TimSoethout/transform-xml-mave
         </plugin>
     </plugins>
 </build>
-```
+{% endhighlight %}
 
 For now it only support the `DELETE` action for the usecase as described above.
 Now I can run my build including publish to Sonar using this one liner:
@@ -95,7 +95,7 @@ Make sure that `cobertura.report.format` is set to `xml` which will result in th
 
 My sonar properties in maven:
 
-```xml
+{% highlight xml %}
 <sonar-maven-plugin.version>2.6</sonar-maven-plugin.version>
 <sonar.jdbc.driver>org.postgresql.Driver</sonar.jdbc.driver>
 <sonar.jdbc.url>jdbc:...</sonar.jdbc.url>
@@ -109,7 +109,7 @@ My sonar properties in maven:
 <sonar.sources>src</sonar.sources>
 <sonar.exclusions>src/test/**</sonar.exclusions>
 <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
-```
+{% endhighlight %}
 
 Conclusion
 ----------
