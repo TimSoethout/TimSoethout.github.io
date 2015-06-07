@@ -7,7 +7,7 @@ title: Mixing Java & Scala with Sonar with correct code coverage.
 ---
 {% include JB/setup %}
 
-# Mixing Scala and Java in a single Maven projec
+# Mixing Scala and Java in a single Maven project
 
 Recently we added Scala to a Java Maven project. This works perfectly fine, until we looked at the Sonar report. It turns out that having nice automated code checks for a combined Java/Scala project is quite hard.
 Last week it was solved. This post is to write down the lessons learned, for it might help others.
@@ -61,7 +61,7 @@ I decided to create a maven plugin which could do this for me. This way I know f
 I release the plugin with the MVP on maven central, which was a nice experience in itself.
 The source can be found [here](https://github.com/TimSoethout/transform-xml-maven-plugin) and it can be include in your project like this:
 
-```
+{% highlight xml linenos %}
     <build>
         <plugins>
             <plugin>
@@ -86,7 +86,7 @@ The source can be found [here](https://github.com/TimSoethout/transform-xml-mave
             </plugin>
         </plugins>
     </build>
-```
+{% endhighlight %}
 
 For now it only support the `DELETE` action for the usecase as described above.
 Now I can run my build including publish to Sonar using this one liner:
