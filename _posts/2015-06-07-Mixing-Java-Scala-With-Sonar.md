@@ -13,8 +13,10 @@ Recently we added Scala to a Java Maven project. This works perfectly fine, unti
 Last week it was solved. This post is to write down the lessons learned, for it might help others.
 
 Using a single language is fine:
+
 - Java + Sonar works perfectly fine, using FindBugs, PMD, any code coverage framework you would like to use (Cobertura, Jacoco etc).
-- Scala + Sonar also works fine, using the (sonar-scala plugin)[https://github.com/1and1/sonar-scala], ScalaStyle and [Scoverage](https://github.com/RadoBuransky/sonar-scoverage-plugin) plugin.
+
+- Scala + Sonar also works fine, using the [sonar-scala plugin](https://github.com/1and1/sonar-scala), ScalaStyle and [Scoverage](https://github.com/RadoBuransky/sonar-scoverage-plugin) plugin.
 
 The combination of combined source code makes it hard.
 
@@ -25,7 +27,7 @@ Another option is Jacoco, which uses an agent by default to instrument the code 
 For dedicated Scala coverage Scoverage is a good candidate. Scoverage does statement coverage, which means that it has a more fine-grained knowledge, since it measures coverage per statement and not per line as the most Java coverage tools (such as Cobertura and Jacoco) do. This is more ideal for Scala, since one often writes more expressive code, which means more information and semantics are embedded in a single line of code.
 Scoverage only scans Scala source files.
 
-Jacoco turned out not to be an option for us because it interprets the bytecode too strict. In certain cases the Java compiler generates more byte code than you normally cover. For example an expression such as `if(!someBool())` results in 4 branches being generated, possible by first evaluating `someBool()` and assigning it to a variable and than doing the actual check. Not all those branches are correctly covered by unit tests, which results in lower coverage. On the github issue tracker it is promised in (a two year old issue)[https://github.com/jacoco/jacoco/issues/15] these kind of issues will be solved by filters for the report generation, but it is not available yet.
+Jacoco turned out not to be an option for us because it interprets the bytecode too strict. In certain cases the Java compiler generates more byte code than you normally cover. For example an expression such as `if(!someBool())` results in 4 branches being generated, possible by first evaluating `someBool()` and assigning it to a variable and than doing the actual check. Not all those branches are correctly covered by unit tests, which results in lower coverage. On the github issue tracker it is promised in [a two year old issue](https://github.com/jacoco/jacoco/issues/15) these kind of issues will be solved by filters for the report generation, but it is not available yet.
 
 For us this was not acceptable since we want to automatically check the coverage levels, and if the level is tens of percentages lower depending on which kind of statements we use, it would not help us very much.
 
@@ -42,7 +44,7 @@ This led us to two problem:
 ## 1. Multiple CoberturaSensor's
 
 After lots of debugging I found that it was not possible to fix this. Both CoberturaSensors use the same `reportPath` property to find the coverage file. I wanted to disable the Scala scanner, and in the end I had to change the Scoverage Sonar plugin code to make this happen by introducing a different property `sonar.scala.cobertura.reportPath` which is used if specified. I did this to point this to a non-existing file so it was skipped.
-See my (fork)[https://github.com/TimSoethout/sonar-scala] and the (pull request)[https://github.com/1and1/sonar-scala/pull/1] for the change.
+See my [fork](https://github.com/TimSoethout/sonar-scala) and the [pull request](https://github.com/1and1/sonar-scala/pull/1) for the change.
 
 ## 2. Duplicate coverage for Scala source files
 
@@ -57,7 +59,7 @@ Another approach was using `xml-maven-plugin` and an XSLT template to convert th
 I decided to create a maven plugin which could do this for me. This way I know for sure it will work correctly for multimodule maven projects and also on all platforms including the build server.
 
 I release the plugin with the MVP on maven central, which was a nice experience in itself.
-The source can be found (here)[https://github.com/TimSoethout/transform-xml-maven-plugin] and it can be include in your project like this:
+The source can be found [here](https://github.com/TimSoethout/transform-xml-maven-plugin) and it can be include in your project like this:
 
 ```
     <build>
