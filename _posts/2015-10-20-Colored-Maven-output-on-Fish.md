@@ -3,7 +3,7 @@ layout: post
 category:
 tagline:
 tags: [maven, fish, terminal, shell]
-title: Coloured Maven output in fish shell.
+title: Coloured Maven output in fish shell
 ---
 {% include JB/setup %}
 
