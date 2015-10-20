@@ -3,7 +3,7 @@ layout: post
 category:
 tagline:
 tags: [scala, java, programming, qa, quality, sonar. maven, multi-modele]
-title: Mixing Java & Scala with Sonar with correct code coverage.
+title: Mixing Java & Scala with Sonar with correct code coverage
 ---
 {% include JB/setup %}
 
