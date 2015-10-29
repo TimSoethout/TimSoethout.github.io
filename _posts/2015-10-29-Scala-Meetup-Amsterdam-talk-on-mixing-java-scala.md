@@ -18,3 +18,5 @@ If you're setting up your own Scala/Java mix up, feel free to use these resource
 - scala-sonarqube-docker - https://github.com/TimSoethout/scala-sonarqube-docker
 - sonar-scala-plugin https://github.com/TimSoethout/sonar-scala/releases
 - xml-transform-maven-plugin - https://github.com/TimSoethout/transform-xml-maven-plugin
+
+You can also see my previous blog post on the (older) details on the setup: http://blog.timmybankers.nl/2015/06/07/Mixing-Java-Scala-With-Sonar
