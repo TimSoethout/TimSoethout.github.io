@@ -13,16 +13,16 @@ Also it is useful to enable compiler flags that warn and help writing better cod
 
 Here you can find the links to the slides and code:
 
-- Slides - http://blog.timmybankers.nl/scala-java-maven-slides
+- Slides - <http://blog.timmybankers.nl/scala-java-maven-slides>
 
-- Code - https://github.com/TimSoethout/scala-java-maven-code
+- Code - <https://github.com/TimSoethout/scala-java-maven-code>
 
 If you're setting up your own Scala/Java mix up, feel free to use these resources:
 
-- scala-sonarqube-docker - https://github.com/TimSoethout/scala-sonarqube-docker
+- scala-sonarqube-docker - <https://github.com/TimSoethout/scala-sonarqube-docker>
 
-- sonar-scala-plugin https://github.com/TimSoethout/sonar-scala/releases
+- sonar-scala-plugin <https://github.com/TimSoethout/sonar-scala/releases>
 
-- xml-transform-maven-plugin - https://github.com/TimSoethout/transform-xml-maven-plugin
+- xml-transform-maven-plugin - <https://github.com/TimSoethout/transform-xml-maven-plugin>
 
-You can also see my previous blog post on the (older) details on the setup: http://blog.timmybankers.nl/2015/06/07/Mixing-Java-Scala-With-Sonar
+You can also see my previous blog post on the (older) details on the setup: <http://blog.timmybankers.nl/2015/06/07/Mixing-Java-Scala-With-Sonar>
