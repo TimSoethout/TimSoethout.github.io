@@ -1,24 +1,6 @@
-# Jekyll-Bootstrap
+Repo backing http://blog.timmybankers.nl
 
-The quickest way to start and publish your Jekyll powered blog. 100% compatible with GitHub pages
+Blog
+Hello, my name is Tim and this is my technology blog. I’m interested in all kinds of software related things and love to program, optimise and automate things. I like to call myself lazy, because I never want to have to do things twice.
 
-## Usage
-
-For all usage and documentation please see: <http://jekyllbootstrap.com>
-
-## Version
-
-0.3.0 - stable and versioned using [semantic versioning](http://semver.org/).
-
-**NOTE:** 0.3.0 introduces a new theme which is not backwards compatible in the sense it won't _look_ like the old version.
-However, the actual API has not changed at all.
-You might want to run 0.3.0 in a branch to make sure you are ok with the theme design changes.
-
-**Jekyll-Bootstrap Documentation Website.**
-
-The documentation website at <http://jekyllbootstrap.com> is maintained at https://github.com/plusjade/jekyllbootstrap.com
-
-
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
+This blog’s main use is for me to not forget things I’ve spend way too much time figuring out and thus functions as a reminder and write down spot. If it is also of use to someone else, that’s a great benefit. Please don’t hesitate to leave a message if you think I’m wrong or right, or if I’m unclear.
