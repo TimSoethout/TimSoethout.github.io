@@ -1,5 +1,5 @@
 ---
-title: Implicits Inspected and Explained
+title: Implicits Inspected and Explained @ ScalaDays 2016
 layout: post
 category:
 tagline:
