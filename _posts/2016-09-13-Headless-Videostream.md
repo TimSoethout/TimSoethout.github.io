@@ -59,3 +59,8 @@ This might help to kill it again.
 ```
 killall Xvfb
 ```
+
+## Finally
+
+This seems to work, although the streaming starts up a little slower than when I'm using the MacBook. It helps to pause it a bit, to let the slow server catch up and than it seems to run just fine.
+I will be trying this out some more the next days and hope it really works as well as I am hoping.
