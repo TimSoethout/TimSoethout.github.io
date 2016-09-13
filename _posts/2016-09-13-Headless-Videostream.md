@@ -18,7 +18,7 @@ This is workable but not ideal because I need to have the laptop running, the mo
 
 I found a way to run this on my simple low-powered Ubuntu server.
 
-#. Install google-chrome
+### 1. Install google-chrome
 
 NB. Use google-chrome, chromium had problems using the Chromecast for me.
 
@@ -32,13 +32,13 @@ sudo apt-get -f install
 
 The last line was to force the dependencies to be installed correctly.
 
-#. Install VideoStream
+### 2. Install VideoStream
 
-Now I connected to my server using `ssh -X` to enable X-forwarding. I could start Chrome now and install the Extension from https://chrome.google.com/webstore/detail/videostream-for-google-ch/cnciopoikihiagdjbjpnocolokfelagl. On the first start it will also install the Chromecast extension for you.
+Now I connected to my server using `ssh -X` to enable X-forwarding. I could start Chrome now and install the Extension from https://chrome.google.com/webstore/detail/videostream-for-google-ch/cnciopoikihiagdjbjpnocolokfelagl . On the first start it will also install the Chromecast extension for you.
 
 Now setup the connection to the mobile VideoStream app (on Android for me).
 
-#. Run it Headless
+### 3. Run it Headless
 
 Install xvfb to be able to run Chrome headless.
 
@@ -47,12 +47,15 @@ sudo apt install xvfb
 ```
 
 And run it! The app-id is the VideoStream app id and also the same as in the URL in the Chromestore.
+
 ```
 xvfb-run google-chrome --app-id=cnciopoikihiagdjbjpnocolokfelagl > /dev/null &
 ```
 
 
+Extra:
 This might help to kill it again.
+
 ```
 killall Xvfb
 ```
