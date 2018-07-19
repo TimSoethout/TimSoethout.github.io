@@ -39,7 +39,7 @@ To scale the actual development functionality is grouped and assigned to a group
 Also all code written by employees of Docker Inc. has to go through the same procedure, and is thus evaluated by the community as well.
 I think this is a great system, which is scalable and community driven.
 
-Another great aspect was the release of a couple of new [http://blog.docker.com/2014/12/announcing-docker-machine-swarm-and-compose-for-orchestrating-distributed-apps/](Docker products). Docker Machine, which is like [Boot2Docker](http://boot2docker.io), but also aimed at docker hosts anywhere. Docker Swarm a cluster manager for docker. Docker Compose, inspired by [Fig](http://boot2docker.io), for easily managing multi container apps. Dockerhub Enterprise, basically dockerhub on premise.
+Another great aspect was the release of a couple of new [http://blog.docker.com/2014/12/announcing-docker-machine-swarm-and-compose-for-orchestrating-distributed-apps/](Docker products). Docker Machine, which is like [Boot2Docker](https://boot2docker.io), but also aimed at docker hosts anywhere. Docker Swarm a cluster manager for docker. Docker Compose, inspired by [Fig](https://boot2docker.io), for easily managing multi container apps. Dockerhub Enterprise, basically dockerhub on premise.
 For each product one of the team members actually working on the product did the introduction and the demo.
 
 ### Takeaways

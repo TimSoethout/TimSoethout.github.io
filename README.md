@@ -1,4 +1,4 @@
-Repo backing http://blog.timmybankers.nl
+Repo backing https://blog.timmybankers.nl
 
 Blog
 Hello, my name is Tim and this is my technology blog. I’m interested in all kinds of software related things and love to program, optimise and automate things. I like to call myself lazy, because I never want to have to do things twice.

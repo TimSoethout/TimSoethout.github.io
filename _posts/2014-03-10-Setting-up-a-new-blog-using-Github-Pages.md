@@ -15,8 +15,8 @@ A long time ago I started out with a self-hosted Wordpress blog. It took some ti
 It took a lot of time to correctly set up Wordpress having all the features I would want: some kind of post drafting and publication, a simple and easy web site, a good uptime.
 Unfortunately the blog died a cold dead a while ago. When setting up a new blog I wanted more or less the same functionality and was about to setup a new self-hosted Wordpress blog when I first looked into alternatives.
 
-My eye fell upon [GitHub pages](http://pages.github.com/), which is a **free** hosted service from GitHub on which you can serve simple static web pages. As long as your pages are thus statically created it is a great place to host them with good availability. Luckily they also provide a way to generate the pages using [Jekyll](http://jekyllrb.com/), which is a blog-aware static page generator. 
-The blog itself is just a GitHub repository and the blog posts are files written in [markdown](http://daringfireball.net/projects/markdown/).
+My eye fell upon [GitHub pages](https://pages.github.com/), which is a **free** hosted service from GitHub on which you can serve simple static web pages. As long as your pages are thus statically created it is a great place to host them with good availability. Luckily they also provide a way to generate the pages using [Jekyll](https://jekyllrb.com/), which is a blog-aware static page generator. 
+The blog itself is just a GitHub repository and the blog posts are files written in [markdown](https://daringfireball.net/projects/markdown/).
 
 ## Getting started
 
@@ -47,5 +47,5 @@ Optionally you can also let your own domain refer to it very easily:
 ##Useful links
 
 More useful links are:
-- <http://prose.io/>: A simple web interface that you can use to edit your markdown blog posts in the browser.
-- themes: You can easily change the visual appearance of your blog by changing [themes](http://themes.jekyllbootstrap.com/).
+- <https://prose.io/>: A simple web interface that you can use to edit your markdown blog posts in the browser.
+- themes: You can easily change the visual appearance of your blog by changing [themes](https://themes.jekyllbootstrap.com/).

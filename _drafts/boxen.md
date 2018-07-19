@@ -9,7 +9,7 @@ tags: [boxen, settings, software, automation, provisioning, puppet, homebrew]
 One of the main reasons to not reinstall or restart with a new machine is that you lose al your customisation settings.
 Most notably your dot files, OS and program settings.
 
-[Boxen](http://boxen.github.com/) is a tool to manage provisioning of development machines. (Only OSX out of the box, pun intended.)
+[Boxen](https://boxen.github.com/) is a tool to manage provisioning of development machines. (Only OSX out of the box, pun intended.)
 Under the hood it uses Puppet and Homebrew to make sure all the files and programs are present. It was originally developed for in-house use at GitHubb and later released as open source.
 
 With a declarative configuration you state which conditions your machine has to meet and boxen and Puppet make sure it is configured. In more technical terms, it creates a Directed Acyclic Graph (DAG) denoting which component depends on what other. Then it starts making sure each dependency is installed and configured before the next until everything is as you configured.

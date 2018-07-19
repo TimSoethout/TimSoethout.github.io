@@ -7,7 +7,7 @@ title: Syncing Kobo and Google drive
 ---
 {% include JB/setup %}
 
-I finally made it work again. Some posts ago I wrote about [sending files to my Kobo ereader]({% post_url 2014-04-19-Send-to-kobo %} using email on (http://sendtokobo.com/). Unfortunately this service stopped working some time ago.
+I finally made it work again. Some posts ago I wrote about [sending files to my Kobo ereader]({% post_url 2014-04-19-Send-to-kobo %} using email on (https://sendtokobo.com/). Unfortunately this service stopped working some time ago.
 
 I still wanted a workflow where I could put the files I want to read on my e-reader at a later time. After a day of struggling I found out a way that works! I can now dump my files in a Google drive folder and sync them at a later time on my Kobo when connected to the internet. No hassle with connecting the e-reader over USB to my machine, and forgetting to do so when at home.
 

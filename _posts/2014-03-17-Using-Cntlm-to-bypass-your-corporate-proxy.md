@@ -6,7 +6,7 @@ tags: [proxy, cntlm, ntlm, corporate, bash, debian]
 ---
 {% include JB/setup %}
 
-[Cntlm](http://cntlm.sourceforge.net/) can be used as a forwarding proxy for an enterprise NTLM proxy on your development machine. This way programs that do not support NTLM can use Cntlm to access the outside world. It also removes the need to store your proxy credentials in your bash scripts, since only the NTLM-token is stored in your Cntlm config.
+[Cntlm](https://cntlm.sourceforge.net/) can be used as a forwarding proxy for an enterprise NTLM proxy on your development machine. This way programs that do not support NTLM can use Cntlm to access the outside world. It also removes the need to store your proxy credentials in your bash scripts, since only the NTLM-token is stored in your Cntlm config.
 
 Each user using this can use his own configuration file (with hashed credentials) and a custom port or use the default `/etc/cntlm.conf` for the startup daemon.
 
@@ -27,7 +27,7 @@ Place cntlm.conf somewhere in your home directory and fill the UserName, PassNTL
 Username        USERNAME
 Domain          DOMAIN
 
-# Generate Auth and PassNTLMv2 with `/usr/sbin/cntlm -v -c cntlm.conf -M "http://www.google.com"` (asks for password once for Username)
+# Generate Auth and PassNTLMv2 with `/usr/sbin/cntlm -v -c cntlm.conf -M "https://www.google.com"` (asks for password once for Username)
 Auth            NTLMv2
 PassNTLMv2      <hash>
  
@@ -50,7 +50,7 @@ NoProxy         localhost, 127.0.0.*, *.local
 Listen          3128
 ```
 
-There is no need to put your password in the config file, since you can generate an authentication token using: `/usr/sbin/cntlm -v -c cntlm.conf -M "http://www.google.com"`.
+There is no need to put your password in the config file, since you can generate an authentication token using: `/usr/sbin/cntlm -v -c cntlm.conf -M "https://www.google.com"`.
 The `-M` flag generates the token for you and then you can copy the resulting Auth and PassNTLMv2 into your config. You do need to set the parent proxy beforehand.
 
 When you want to use the proxy, run: `/usr/sbin/cntlm -v -c cntlm.conf` or when using the startup daemon, activate your settings by reloading them with `sudo service cntlm restart`.

@@ -7,7 +7,7 @@ title: Coloured Maven output in fish shell
 ---
 {% include JB/setup %}
 
-Here is a nice gist I found which will instantaneously give you simple colored maven output in the [fish shell](http://fishshell.com):
+Here is a nice gist I found which will instantaneously give you simple colored maven output in the [fish shell](https://fishshell.com):
 
 {% gist a9b74c537f667a8dd28e %}
 

@@ -14,16 +14,16 @@ Feel free to ask me any questions if it was unclear.
 
 ### References
 
-[Slides](http://blog.timmybankers.nl/implicits-inspected-and-explained-slides)
+[Slides](https://blog.timmybankers.nl/implicits-inspected-and-explained-slides)
 /
 [Code](https://github.com/TimSoethout/implicits-inspected-and-explained-slides/tree/gh-pages/code)
 
 - Scala documentation:
-  + [Java Converters](http://docs.scala-lang.org/overviews/collections/conversions-between-java-and-scala-collections.html)
-  + [Finding Implicits](http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html)
+  + [Java Converters](https://docs.scala-lang.org/overviews/collections/conversions-between-java-and-scala-collections.html)
+  + [Finding Implicits](https://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html)
 - Book: [Scala In Depth](https://www.manning.com/books/scala-in-depth)
-- [Effective Scala](http://twitter.github.io/effectivescala/)
-- Blog [All Things Runnable](http://lalitpant.blogspot.nl/2008/08/scala-implicits-dose-of-magic-part-1.html)
+- [Effective Scala](https://twitter.github.io/effectivescala/)
+- Blog [All Things Runnable](https://lalitpant.blogspot.nl/2008/08/scala-implicits-dose-of-magic-part-1.html)
 - [Scala Gitter channel](https://gitter.im/scala/scala), special thanks to @Ichoran and @som-snytt
 - [REPLesent](https://github.com/marconilanna/REPLesent), for the demo slides
 
