@@ -1,5 +1,5 @@
 ---
-title: Notes deconz
+title: Notes DeCONZ
 layout: post
 category: null
 tagline: null
@@ -11,7 +11,6 @@ tags:
 
 Here are some notes and command lines I used to set DeConz up on my Odroid C2. Mainly for my backup, but if someone needs more info, I'm glad to try and remember how I did it.
 
-
 ## Deconz
 
 ```sudo apt-get install libqt5serialport5 libqt5websockets5 libqt5sql5 sqlite3```
@@ -22,9 +21,9 @@ Unfortunately apt will not forget the dependency, and keep complaining.
 ```
 The following packages have unmet dependencies:
  deconz:armhf : Depends: wiringpi:armhf but it is not installable
- ```
+```
 
-Fix: ```a```
+Fix: ```sudo nano /var/lib/dpkg/status```
 Remove `wiringpi` from Depends (search for this in this document)
 
 ```sudo nano /usr/lib/systemd/system/deconz.service```
