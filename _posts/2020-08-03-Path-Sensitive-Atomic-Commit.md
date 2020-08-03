@@ -48,7 +48,7 @@ The locks are on the level of the 2PC resources. When a resource has voted, it i
 Let's first look at an example of such semantically rich models: A bank account system example consisting of money transfers and accounts with balances.
 Our model consists of state charts, which can be visually represented:
 
-![Rebel State Charts](../assets/images/progamming-state-charts.svg)
+![Rebel State Charts]({{ site.url }}/assets/images/progamming-state-charts.svg)
 
 In the textual representation, we see different classes, with some internal data, representing the account balance and identities. On each of the states events are defined with pre- and postconditions, e.g. `Withdraw` is only valid when the account has enough balance available. 
 The `MoneyTransfer` class has a special construct `sync` which represents an atomic synchronized event, where money is `Withdraw`n from one account and `Deposit`ed from another. Either both should happen or none.
@@ -89,7 +89,7 @@ We can see how these kinds of models can represent business logic on a relativel
 
 If we want to implement these models in a scalable systems, we can represent all instances of these objects as 2PC resources. This means that can be interacted with separately, until synchronization (using `sync`) is requested. Locally each resource does 2PL, making sure that data is not changed concurrently, and 2PC is used to coordinate the sync.
 
-![Rebel State Charts](../assets/images/programming-PSAC-2pc.svg)
+![Rebel State Charts]({{ site.url }}/assets/images/programming-PSAC-2pc.svg)
 
 Above illustration describes what happens for such a resource (Account Entity). Vertically time is represented and the arrow represent messages send and received.
 
@@ -101,4 +101,4 @@ We see that in this way all events are nicely serialized for this resource and n
 
 TBC
 
-![Rebel State Charts](../assets/images/programming-PSAC-psac.svg)
+![Rebel State Charts]({{ site.url }}/assets/images/programming-PSAC-psac.svg)
