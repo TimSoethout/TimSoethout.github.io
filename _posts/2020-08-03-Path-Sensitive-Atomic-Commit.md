@@ -1,5 +1,5 @@
 ---
-title: <WIP> Path-Sensitive Atomic Commit
+title: Path-Sensitive Atomic Commit (WIP)
 layout: post
 category: null
 tagline: null
