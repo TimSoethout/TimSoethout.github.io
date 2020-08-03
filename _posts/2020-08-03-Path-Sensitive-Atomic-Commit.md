@@ -6,7 +6,7 @@ tagline: null
 tags:
   - distributed systems
   - atomic commit
-   -scalability
+  - scalability
 ---
 
 {% include JB/setup %}
