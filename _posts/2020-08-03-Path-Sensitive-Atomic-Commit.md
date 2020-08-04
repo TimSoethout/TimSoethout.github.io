@@ -7,19 +7,25 @@ tags:
   - distributed systems
   - atomic commit
   - scalability
+  - two-phase commit
 ---
 
 {% include JB/setup %}
 
-> Blog post about paper: Path-Sensitive Atomic Commit: Local Coordination Avoidance for Distributed Transactions @ https://doi.org/10.22152/programming-journal.org/2021/5/3
+> Blog post about paper: Path-Sensitive Atomic Commit: Local Coordination Avoidance for Distributed Transactions @ [https://doi.org/10.22152/programming-journal.org/2021/5/](https://doi.org/10.22152/programming-journal.org/2021/5/3)
 
+> Motivation: Abstractions, such as DSLs, can help business users to grasp IT trade-offs between performance and functional requirements. Automatically generating the implementation, picking the best-performing implementation, helps achieving this goal.
 
 I spend a lot of time the last years devising an algorithm that leverages semantically rich models of objects to speed up coordination between objects: Path-Sensitive Atomic Commit or Local Coordination Avoidance. 
 In other words: to make transactions faster automatically.
 This algorithm can be used to create a more performant synchronization implementation for automatically generated implementations. This enables writing of high-level business logic or functional requirements, and letting the algorithm take care of performance at run time.
 
+PSAC's main idea is to use the explicit domain knowledge to improve concurrency where safely possible, e.g. multiple concurrent deposits on a bank account are always safe because the balance can never go too low this way. However, determining this can be more expensive computationally.
+
 Of course this algorithm's performance has to be evaluated.
 Does it really perform better than a base-line implementation?
+
+> TODO Show performance teaser here.
 
 ## Background
 
@@ -85,11 +91,11 @@ class MoneyTransfer
 
 We can see how these kinds of models can represent business logic on a relatively high level.
 
-### Rebel with 2PC/2PL
+### [Rebel](https://github.com/cwi-swat/rebel) with 2PC/2PL
 
 If we want to implement these models in a scalable systems, we can represent all instances of these objects as 2PC resources. This means that can be interacted with separately, until synchronization (using `sync`) is requested. Locally each resource does 2PL, making sure that data is not changed concurrently, and 2PC is used to coordinate the sync.
 
-![Rebel State Charts]({{ site.url }}/assets/images/programming-PSAC-2pc.svg)
+![2PL/2PC example]({{ site.url }}/assets/images/programming-PSAC-2pc.svg)
 
 Above illustration describes what happens for such a resource (Account Entity). Vertically time is represented and the arrow represent messages send and received.
 
@@ -99,6 +105,49 @@ We see that in this way all events are nicely serialized for this resource and n
 
 ### PSAC
 
-TBC
+When looking at the account model above, the most interesting precondition is `balance - amount >= €0` of `Withdraw`, denoting that there should be enough balance available for the `Withdraw` to be allowed.
+2PL only allows a single `Withdraw` to be in progress at the same time by locking the Account resource. When we want to allow multiple concurrent `Withdraw`s on an account, it could be the case that the precondition checks cross each other and the combination results in a balance below zero.
+Enter Path-Sensitive Atomic Commit:
 
-![Rebel State Charts]({{ site.url }}/assets/images/programming-PSAC-psac.svg)
+![PSAC example]({{ site.url }}/assets/images/programming-PSAC-psac.svg)
+
+PSAC enables multiple concurrent events in-progress at the same time, resulting in lower latency for individual events, because of no locking and no delaying for events.
+
+_But how does it keep that safe?:_
+PSAC makes multiple concurrent `Withdraw`s safe by keeping track of all in-progress events. It effectively tracks all possible outcome states of in-progress events, and when a concurrent event arrives the preconditions can be checked against all outcomes. If preconditions hold in all states, an event can already be accepted for processing (and the 2PC commit vote send). Same for abort, if the preconditions fail in all states.
+If the preconditions hold in some states, but not all, PSAC falls back to 2PL/2PC behavior and delays the events.
+For our `Withdraw` example, multiple `Withdraw`s can be in progress concurrently when there is enough balance available for all.
+Other examples such as `Deposit`s can also run concurrently, because adding money to an account is always allowed by its preconditions.
+
+This diagram tries to explain in more detail how this works and represents the internal decisions of above sequence diagrams:
+1. The `Withdraw` arrives and since there are no events in progress, the preconditions are checked against the account state of €100. Now internally there are two possible outcome states, represented by the arrows: €100, when the `Withdraw` is eventually aborted by the (not shown) 2PC transaction manager, and €70 when the `Withdraw` is committed. `+` and `-` respectively representing the global commit and global abort.
+2. Now when another `Withdraw` arrives the possible outcomes tree is split again for the existing possible states. 
+3. When a `Withdraw` of €60 arrives, it is delayed, because in some of the outcome states its preconditions are valid and in some not.
+4. As -€50 commits, the outcome tree can be pruned, and the leafs where it had aborted are cut off.
+5. Now -€60 can be retried and can be directly rejected (`Fail`), because in no possible outcome state its preconditions hold.
+6. When the first event commits the last open branch is pruned as well and the state can be calculated by applying the postconditions of all events in order of original arrival.
+
+![Rebel State Charts]({{ site.url }}/assets/images/programming-PSAC-tree.svg)
+
+This blog post's goal is to intuitively sketch the algorithm. Please see [the paper](https://doi.org/10.22152/programming-journal.org/2021/5/3) for more details.
+
+## Does it perform?
+
+We implemented both  2PL/2PC and PSAC on the Akka actor toolkit. 
+
+The bank account system example above is used and scaled over an increasing number of nodes (and Cassandra database nodes) on Amazon AWS virtual machines. In this case there are as many money transfers as possible done on 1000 bank accounts, which artificially increases the contention.
+The graph below contains a [violin plots](https://en.wikipedia.org/wiki/Violin_plot) that show all captured throughput numbers and a fit through it. The transparent line is the linear scalability upper bound.
+In this graph we see both algorithms and their throughput numbers. PSAC outperforms 2PL/2PC, which is explained by the increased concurrency.
+
+![Rebel State Charts]({{ site.url }}/assets/images/psac2pc-sync1000-amdahl-plot-1.svg)
+
+## Concluding
+
+We thus see that there PSAC performs up to 1.8 times better than 2PL/2PC in this high-contention scenario. This promises good results, which we expect to even increase more when more contention is happening, such as when a bank has to execute a lot of transactions involving a single bank account such as when a tax office pays out benefits to citizens.
+
+In our opinion this shows that there are possibilities in optimizing implementations based on higher level semantically-rich models. 
+
+
+
+
+> This paper is part of my PhD project in the ongoing collaboration between ING Bank and Centrum Wiskunde & Informatica (CWI) on managing complexity of enterprise software ecosystems.
