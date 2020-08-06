@@ -37,7 +37,7 @@ PSAC's main idea is to use the explicit domain knowledge to improve concurrency 
 
 Of course this algorithm's performance has to be evaluated.
 Does it really perform better than a base-line implementation?
-Here is a sneak preview of the performance results:
+Here is a sneak preview of the performance results. PSAC performs up to 1.8 times better than 2PL/2PC in a high-contention scenario.
 
 ![Throughput of 2PL/2PC and PSAC]({{ site.url }}/assets/images/psac2pc-sync1000-1.svg)
 
@@ -71,7 +71,7 @@ The locks are on the level of the 2PC resources. When a resource has voted, it i
 Let's first look at an example of such semantically rich models.
 We use [Rebel](https://github.com/cwi-swat/rebel) ([paper](https://dl.acm.org/doi/10.1145/2998407.2998413)), a domain specific language for financial products, based on state machines. The concept of leveraging model knowledge is not limited to Rebel.
 Our example:
-A bank account system example consisting of money transfers and accounts with balances, visualized as state charts:
+A bank account system example consisting of money transfers and accounts with balances, which should never go below 0, visualized as state charts:
 
 ![Rebel State Charts]({{ site.url }}/assets/images/progamming-state-charts.svg)
 
@@ -118,7 +118,7 @@ If we want to implement these models in a scalable systems, we can represent all
 
 Above on the left illustration describes what happens for such a resource (Account Entity). Vertically time is represented and the arrow represent messages send and received.
 
-First (1) a vote request is received from a 2PC manager (not shown), preconditions are checked and the resource is locked. When another event (2) arrives it is delayed. Now when the 2PC manager signals the commit later (3), the event's effects are applied to the resource's internal state and the resource is unlocked.
+First (1) a vote request is received from a 2PC manager, preconditions are checked and the resource is locked. When another event (2) arrives it is delayed. Now when the 2PC manager signals the commit later (3), the event's effects are applied to the resource's internal state and the resource is unlocked.
 Now the delayed event can start as well. 
 We see that in this way all events are nicely serialized for this resource and no preconditions are done on possibly invalid (partial) state. Event do have to wait on each other in this case, which can become a problem for busy resources.
 
@@ -137,7 +137,7 @@ For our `Withdraw` example, multiple `Withdraw`s can be in progress concurrently
 Other examples such as `Deposit`s can also run concurrently, because adding money to an account is always allowed by its preconditions.
 
 The PSAC diagram (above on the right) tries to explain in more detail how this works and represents the internal decisions of above sequence diagrams:
-1. The `Withdraw` arrives and since there are no events in progress, the preconditions are checked against the account state of €100. Now internally there are two possible outcome states, represented by the arrows: €100, when the `Withdraw` is eventually aborted by the (not shown) 2PC transaction manager, and €70 when the `Withdraw` is committed. `+` and `-` respectively representing the global commit and global abort.
+1. The `Withdraw` arrives and since there are no events in progress, the preconditions are checked against the account state of €100. Now internally there are two possible outcome states, represented by the arrows: €100, when the `Withdraw` is eventually aborted by the transaction manager, and €70 when the `Withdraw` is committed. `+` and `-` respectively representing the global commit and global abort.
 2. Now when another `Withdraw` arrives the possible outcomes tree is split again for the existing possible states. 
 3. When a `Withdraw` of €60 arrives, it is delayed, because in some of the outcome states its preconditions are valid and in some not.
 4. As -€50 commits, the outcome tree can be pruned, and the leafs where it had aborted are cut off.
@@ -150,7 +150,7 @@ This blog post's goal is to intuitively sketch the algorithm. Please see [the pa
 
 We implemented code generators for the Rebel specifications to both 2PL/2PC and PSAC on the Akka actor toolkit. 
 
-Experiments using the bank account system example above are scaled over an increasing number of nodes (and Cassandra database nodes) on Amazon AWS virtual machines. In this case there are as many money transfers as possible done on 1000 bank accounts, which artificially increases the contention.
+Experiments using the bank account system example above are scaled over an increasing number of nodes (and Cassandra database nodes) on Amazon AWS virtual machines. In this case there are as many money transfers as possible done picked uniformly from 1000 bank accounts. This artificially increases the contention.
 The graph below contains a [violin plots](https://en.wikipedia.org/wiki/Violin_plot) that show all captured throughput numbers and a fit through it. The transparent line is the linear scalability upper bound.
 In this graph we see both algorithms and their throughput numbers. PSAC outperforms 2PL/2PC, which is explained by the increased concurrency.
 
@@ -158,7 +158,7 @@ In this graph we see both algorithms and their throughput numbers. PSAC outperfo
 
 ## Concluding
 
-We thus see that there PSAC performs up to 1.8 times better than 2PL/2PC in this high-contention scenario. This promises good results in other situations with other models. We expect to improve the throughput (and latency) even more when more contention is happening, such as when a bank has to execute a lot of transactions involving a single bank account such as when a tax office pays out benefits to citizens.
+We thus see that there PSAC performs up to 1.8 times better than 2PL/2PC in this high-contention scenario. This promises good results in other situations with other models. We expect to improve the throughput (and latency) even more when more contention is happening, such as when a bank has to execute a lot of transactions involving a single bank account, e.g. when a tax office pays out benefits to citizens.
 
 This shows that higher level semantically-rich models, such as Rebel, give possibilities in bridging the gap between declarative high-level models and optimized implementations. 
 
