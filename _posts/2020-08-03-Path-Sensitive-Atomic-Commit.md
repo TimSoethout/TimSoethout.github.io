@@ -19,13 +19,13 @@ tags:
 
 <!-- > TLDR: There is ample opportunity for cleverly leveraging high-level models when generating code for better performance, scalability and specialized synchronization. -->
 
-Many tools and libraries in software try to make the work of engineers easier, both to speed up development, but also to close the gap between IT and business.
+Many tools and libraries in software try to make the work of engineers easier: to speed up development, but also to close the gap between IT and business.
 These tools provide abstractions that focus on writing business logic.
-Within ING Bank this is no different. We use and create tools and abstractions that are closer to the business and abstract away implementation details: [Baker](https://medium.com/ing-blog/baker-a-microservice-orchestration-library-e2d162be3d71), [Cucumber](https://medium.com/ing-blog/cucumber-ing-making-it-part-of-the-agile-workflow-4b53926fbd6), [front-end libraries](https://medium.com/ing-blog/micro-front-end-architecture-rapid-development-in-a-startup-environment-10270dca1d5b) and [components](https://github.com/ing-bank/lion), [query creators](https://github.com/ing-bank/scruid), [cryptography primitives](https://github.com/ing-bank/zkkrypto), [security layers](https://github.com/ing-bank/rokku), our internal API SDK and a lot more.
+Within ING Bank this is no different. We use and create tools and abstractions that are closer to the business and abstract away implementation details: [Baker](https://medium.com/ing-blog/baker-a-microservice-orchestration-library-e2d162be3d71), [Cucumber](https://medium.com/ing-blog/cucumber-ing-making-it-part-of-the-agile-workflow-4b53926fbd6), [front-end libraries](https://medium.com/ing-blog/micro-front-end-architecture-rapid-development-in-a-startup-environment-10270dca1d5b) and [components](https://github.com/ing-bank/lion), [query creators](https://github.com/ing-bank/scruid), [cryptography primitives](https://github.com/ing-bank/zkkrypto), [security layers](https://github.com/ing-bank/rokku), our internal API SDK, and a lot more.
 
-The premise of this blog is not different. We want to describe high-level business logic without being bothered by low-level implementation details. However, creating a performant implementation of said logic is non-trivial.
+The premise of this blog is no different. We want to describe high-level business logic without being bothered by low-level implementation details. However, creating a performant implementation of said logic is non-trivial.
 This blog describes an approach on how this high-level domain knowledge encoded in a model can be used to optimize distributed transactions.
-This even gives us an advantage over general purpose transaction mechanism that can not depend on this extra domain knowledge and can be used for optimizing transactions between micro-services.
+This even gives us an advantage over general purpose transaction mechanisms that cannot depend on this extra domain knowledge and can be used for optimizing transactions between micro-services.
 
 <!-- This effectively splits up developers in two categories, tool users and tool developers. -->
 
@@ -43,11 +43,11 @@ Here is a sneak preview of the performance results. PSAC performs up to 1.8 time
 
 ## Background: Distributed Transactions
  
-Transactions are a mechanism to limit the complexities inherent to concurrent and distributed systems, such as dealing with hardware failure, application crashes, network interruptions, multiple clients writing to same resource, reading of partial updates and data and race conditions.
+Transactions are a mechanism to limit the complexities inherent to concurrent and distributed systems, such as dealing with hardware failure, application crashes, network interruptions, multiple clients writing to same resource, reading of partial updates, and data and race conditions.
 ACID transactions are the standard in databases. [ACID](https://en.wikipedia.org/wiki/ACID) stands for Atomic, Consistent, Isolated and Durable. 
 
 _Atomic Commit & Two-Phase Commit (2PC):_
-[2PC](https://en.wikipedia.org/wiki/Two-phase_commit_protocol) is a well-studied atomic commitment protocol. Atomic Commit requires that multiple resources agree on a action: all should do it or non should do it. This also hold in case of failure of one of the resources.
+[2PC](https://en.wikipedia.org/wiki/Two-phase_commit_protocol) is a well-studied atomic commitment protocol. Atomic Commit requires that multiple resources agree on an action: all should do it or non should do it. This also hold in case of failure of one of the resources.
 Resources in this case can be distributed over multiple server nodes, or can even be different applications (see [XA](https://en.wikipedia.org/wiki/X/Open_XA)).
 
 2PC works with a transaction manager and multiple transaction resources. 
@@ -112,11 +112,11 @@ We can see how these kinds of models can represent different business logic on a
 
 ### Rebel with 2PC/2PL
 
-If we want to implement these models in a scalable systems, we can represent all instances of these objects as 2PC resources. This means that can be interacted with separately, until synchronization (using `sync`) is requested. Locally each resource does 2PL, making sure that data is not changed concurrently, and 2PC is used to coordinate the sync.
+If we want to implement these models in a scalable system, we can represent all instances of these objects as 2PC resources. This means that they can be interacted with separately, until synchronization (using `sync`) is requested. Locally each resource does 2PL, making sure that data is not changed concurrently, and 2PC is used to coordinate the sync.
 
 ![2PL/2PC example]({{ site.url }}/assets/images/programming-PSAC-2pc.svg) | ![PSAC example]({{ site.url }}/assets/images/programming-PSAC-psac.svg)
 
-Above on the left illustration describes what happens for such a resource (Account Entity). Vertically time is represented and the arrow represent messages send and received.
+The illustration above on the left describes what happens for such a resource (Account Entity). Vertically time is represented, and the arrows represent messages sent and received.
 
 First (1) a vote request is received from a 2PC manager, preconditions are checked and the resource is locked. When another event (2) arrives it is delayed. Now when the 2PC manager signals the commit later (3), the event's effects are applied to the resource's internal state and the resource is unlocked.
 Now the delayed event can start as well. 
@@ -131,18 +131,18 @@ Enter Path-Sensitive Atomic Commit:
 PSAC enables multiple concurrent events in-progress at the same time, resulting in lower latency for individual events, because of no locking and no delaying for events.
 
 _But how does it keep that safe?:_
-PSAC makes multiple concurrent `Withdraw`s safe by keeping track of all in-progress events. It effectively tracks all possible outcome states of in-progress events, and when a concurrent event arrives the preconditions can be checked against all outcomes. If preconditions hold in all states, an event can already be accepted for processing (and the 2PC commit vote send). Same for abort, if the preconditions fail in all states.
+PSAC makes multiple concurrent `Withdraw`s safe by keeping track of all in-progress events. It effectively tracks all possible outcome states of in-progress events, and when a concurrent event arrives, the preconditions can be checked against all outcomes. If preconditions hold in all states, an event can already be accepted for processing (and the 2PC commit vote sent). Same for abort, if the preconditions fail in all states.
 If the preconditions hold in some states, but not all, PSAC falls back to 2PL/2PC behavior and delays the events.
 For our `Withdraw` example, multiple `Withdraw`s can be in progress concurrently when there is enough balance available for all.
 Other examples such as `Deposit`s can also run concurrently, because adding money to an account is always allowed by its preconditions.
 
 The PSAC diagram (above on the right) tries to explain in more detail how this works and represents the internal decisions of above sequence diagrams:
 1. The `Withdraw` arrives and since there are no events in progress, the preconditions are checked against the account state of €100. Now internally there are two possible outcome states, represented by the arrows: €100, when the `Withdraw` is eventually aborted by the transaction manager, and €70 when the `Withdraw` is committed. `+` and `-` respectively representing the global commit and global abort.
-2. Now when another `Withdraw` arrives the possible outcomes tree is split again for the existing possible states. 
+2. Now when another `Withdraw` arrives, the possible outcomes tree is split again for the existing possible states. 
 3. When a `Withdraw` of €60 arrives, it is delayed, because in some of the outcome states its preconditions are valid and in some not.
-4. As -€50 commits, the outcome tree can be pruned, and the leafs where it had aborted are cut off.
+4. As -€50 commits, the outcome tree can be pruned, and the leaves where it had aborted are cut off.
 5. Now -€60 can be retried and can be directly rejected (`Fail`), because in no possible outcome state its preconditions hold.
-6. When the first event commits the last open branch is pruned as well and the state can be calculated by applying the postconditions of all events in order of original arrival.
+6. When the first event commits the last open branch is pruned as well, and the state can be calculated by applying the postconditions of all events in order of original arrival.
 
 This blog post's goal is to intuitively sketch the algorithm. Please see [the paper](https://doi.org/10.22152/programming-journal.org/2021/5/3) for more details.
 
@@ -150,7 +150,7 @@ This blog post's goal is to intuitively sketch the algorithm. Please see [the pa
 
 We implemented code generators for the Rebel specifications to both 2PL/2PC and PSAC on the Akka actor toolkit. 
 
-Experiments using the bank account system example above are scaled over an increasing number of nodes (and Cassandra database nodes) on Amazon AWS virtual machines. In this case there are as many money transfers as possible done picked uniformly from 1000 bank accounts. This artificially increases the contention.
+Experiments using the bank account system example above are scaled over an increasing number of nodes (and Cassandra database nodes) on Amazon AWS virtual machines. In this case there are as many money transfers as possible done, picked uniformly from 1000 bank accounts. This artificially increases the contention.
 The graph below contains a [violin plots](https://en.wikipedia.org/wiki/Violin_plot) that show all captured throughput numbers and a fit through it. The transparent line is the linear scalability upper bound.
 In this graph we see both algorithms and their throughput numbers. PSAC outperforms 2PL/2PC, which is explained by the increased concurrency.
 
