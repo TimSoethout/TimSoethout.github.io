@@ -13,17 +13,21 @@ tags:
 
 {% include JB/setup %}
 
-> Blog post about paper: Path-Sensitive Atomic Commit: Local Coordination Avoidance for Distributed Transactions @ [https://doi.org/10.22152/programming-journal.org/2021/5/](https://doi.org/10.22152/programming-journal.org/2021/5/3)
+> Blog post about paper: Path-Sensitive Atomic Commit: Local Coordination Avoidance for Distributed Transactions @ [https://doi.org/10.22152/programming-journal.org/2021/5/3](https://doi.org/10.22152/programming-journal.org/2021/5/3)
+
+> Cross-posted on [ING's Tech Blog](https://medium.com/ing-blog/leverage-domain-knowledge-for-faster-distributed-transactions-f9d0b2c266fd).
 
 <!-- > Motivation: Abstractions, such as DSLs, can help business users to grasp IT trade-offs between performance and functional requirements. Automatically generating the implementation, picking the best-performing implementation, helps achieving this goal. -->
 
 <!-- > TLDR: There is ample opportunity for cleverly leveraging high-level models when generating code for better performance, scalability and specialized synchronization. -->
 
+TLDR: Safely optimize distributed transactions by leveraging high-level domain-specific models.
+
 Many tools and libraries in software try to make the work of engineers easier: to speed up development, but also to close the gap between IT and business.
 These tools provide abstractions that focus on writing business logic.
 Within ING Bank this is no different. We use and create tools and abstractions that are closer to the business and abstract away implementation details: [Baker](https://medium.com/ing-blog/baker-a-microservice-orchestration-library-e2d162be3d71), [Cucumber](https://medium.com/ing-blog/cucumber-ing-making-it-part-of-the-agile-workflow-4b53926fbd6), [front-end libraries](https://medium.com/ing-blog/micro-front-end-architecture-rapid-development-in-a-startup-environment-10270dca1d5b) and [components](https://github.com/ing-bank/lion), [query creators](https://github.com/ing-bank/scruid), [cryptography primitives](https://github.com/ing-bank/zkkrypto), [security layers](https://github.com/ing-bank/rokku), our internal API SDK, and a lot more.
 
-The premise of this blog is no different. We want to describe high-level business logic without being bothered by low-level implementation details. However, creating a performant implementation of said logic is non-trivial.
+The premise of this blog post is no different. We want to describe high-level business logic without being bothered by low-level implementation details. However, creating a performant implementation of said logic is non-trivial.
 This blog describes an approach on how this high-level domain knowledge encoded in a model can be used to optimize distributed transactions.
 This even gives us an advantage over general purpose transaction mechanisms that cannot depend on this extra domain knowledge and can be used for optimizing transactions between micro-services.
 
