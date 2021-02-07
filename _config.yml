@@ -81,7 +81,8 @@ JB :
   # Set 'provider' to false to turn commenting off globally.
   #
   comments :
-    provider : disqus
+    provider : remarkbox
+    remarkbox: 
     disqus :
       short_name : timmybankers
     livefyre :
