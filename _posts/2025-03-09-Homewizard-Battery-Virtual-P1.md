@@ -1,8 +1,9 @@
 ---
+title: Homewizard Plug-in batterij dynamisch (ont)laden met "virtuele P1 provider"
 layout: post
 category : 
-tagline: "gh-pages"
-tags : [beginner, jekyll, blog, gh-pages]
+tagline: ""
+tags : [homewizard, p1, battery, tweakers]
 published : true
 ---
 
@@ -11,11 +12,9 @@ published : true
 In Dutch for once. Written for the Dutch Tweakers community.
 Links:
 
-* Files: https://github.com/TimSoethout/homewizard-plug-in-battery-virtual-p1
-* https://gathering.tweakers.net/forum/list_message/81877564#81877564
-* https://gathering.tweakers.net/forum/list_message/81877550#81877550
-
-# Homewizard Plug-in batterij dynamisch (ont)laden met "virtuele P1 provider"
+* Files: <https://github.com/TimSoethout/homewizard-plug-in-battery-virtual-p1>
+* <https://gathering.tweakers.net/forum/list_message/81877564#81877564>
+* <https://gathering.tweakers.net/forum/list_message/81877550#81877550>
 
 ## Waarom
 De [Homewizard Plugin-In thuisbatterij](https://www.homewizard.com/nl/plug-in-battery/) is net gelanceerd in Nederland. Vooralsnog is deze bedoeld om Nul op de Meter (NOM) te draaien. Via P1 uit de slimme meter ziet de [Homewizard P1 Meter](https://www.homewizard.com/nl/p1-meter/)-dongle hoeveel overproductie er is, en draagt de batterij op om dit overschot op te laden. Als er afname is van het stroomnet, zal deze juist ontladen. 
@@ -26,7 +25,7 @@ Het idee is dat als je de P1 informatie die de P1 Meter ontvangt kan controleren
 Idealiter kun je dit via Home Assistant aansturen voor automatische optimalisatie. Op deze manier kun je de batterij respectievelijk opladen en ontladen tijdens goedkope en dure dynamische uurtarieven. 
 Zolang er nog gesaldeerd kan worden (en je teruglevering lager is dan gebruik), kun je op deze manier de cycles van de batterij financieel het meest voordelig inzetten.
 
-![Smart-stuff P1 meter foward naar Homewizard P1 meter](assets/images/virtual-p1/smartstuff-p1+homewizrd-p1.jpeg "P1's")
+![Smart-stuff P1 meter foward naar Homewizard P1 meter]({{ site.url }}/assets/images/virtual-p1/smartstuff-p1+homewizrd-p1.jpeg "P1's")
 
 ## Hoe:
 Ik gebruik een P1 dongle van Smart Stuff (vorige versie van https://smart-stuff.nl/product/p1-dongle-watermeter/) om mijn slimme meter en watermeter uit te lezen. Deze kan draaien op ESPHome en bevat ook een P1-poort waar de gegevens op worden geforward. 
@@ -43,9 +42,9 @@ Mijn vervolgstap is om met behulp van [Cheapest Energy Hours](https://github.com
 
 https://vimeo.com/1064030293/3f3f958084
 
-![Controle vanuit HA](assets/images/virtual-p1/charge-kiezen-in-HA.png)
+![Controle vanuit HA]({{ site.url }}/assets/images/virtual-p1/charge-kiezen-in-HA.png)
 
-![HW laad cyclus](assets/images/virtual-p1/HW-overview.png)
+![HW laad cyclus]({{ site.url }}/assets/images/virtual-p1/HW-overview.png)
 
 ## Opmerkingen
 
